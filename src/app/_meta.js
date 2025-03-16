@@ -2,8 +2,12 @@ export default {
   index: {
     display: "hidden",
   },
-  docs: {
+  tech: {
     type: "page",
-    title: "Documentation",
+    title: "Blog",
+  },
+  leetcode: {
+    type: "page",
+    title: "Leetcode",
   },
 };
