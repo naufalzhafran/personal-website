@@ -223,122 +223,39 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Project 1 */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-black dark:bg-black dark:border dark:border-white">
-              <div className="h-48 bg-white flex items-center justify-center text-black border-b border-black dark:bg-black dark:text-white dark:border-white">
-                <p className="text-black dark:text-white">Project Image</p>
+              <div className="aspect-square w-full bg-white relative overflow-hidden flex items-center justify-center text-black border-b border-black dark:bg-black dark:text-white dark:border-white">
+                <Image
+                  src="/porto-1.png"
+                  alt="Project Image"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2 text-black dark:text-white">
-                  Project Name
+                  Student Center Platform
                 </h3>
                 <p className="text-black mb-4 dark:text-white">
-                  A brief description of the project and its key features.
-                  Explain the tech stack and your role.
+                  Comprehensive platform enabling students to register for
+                  various events organized by a student-led NGO
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    Next.js
+                    NextJS
                   </span>
                   <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    React
+                    AdonisJS
                   </span>
                   <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    Node.js
+                    PostgreSQL
                   </span>
                 </div>
                 <div className="flex space-x-4">
                   <a
-                    href="#"
+                    href="https://kaderisasi.salmanitb.com"
                     className="text-black hover:text-black dark:text-white dark:hover:text-white"
                   >
-                    View Demo
-                  </a>
-                  <a
-                    href="#"
-                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
-                  >
-                    Source Code
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Project 2 */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden border border-black dark:bg-black dark:border dark:border-white">
-              <div className="h-48 bg-white flex items-center justify-center text-black border-b border-black dark:bg-black dark:text-white dark:border-white">
-                <p className="text-black dark:text-white">Project Image</p>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">
-                  Project Name
-                </h3>
-                <p className="text-black mb-4 dark:text-white">
-                  A brief description of the project and its key features.
-                  Explain the tech stack and your role.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    Python
-                  </span>
-                  <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    Django
-                  </span>
-                  <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    React
-                  </span>
-                </div>
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
-                  >
-                    View Demo
-                  </a>
-                  <a
-                    href="#"
-                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
-                  >
-                    Source Code
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Project 3 */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden border border-black dark:bg-black dark:border dark:border-white">
-              <div className="h-48 bg-white flex items-center justify-center text-black border-b border-black dark:bg-black dark:text-white dark:border-white">
-                <p className="text-black dark:text-white">Project Image</p>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">
-                  Project Name
-                </h3>
-                <p className="text-black mb-4 dark:text-white">
-                  A brief description of the project and its key features.
-                  Explain the tech stack and your role.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    Adonis.js
-                  </span>
-                  <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    React
-                  </span>
-                  <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                    SQL
-                  </span>
-                </div>
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
-                  >
-                    View Demo
-                  </a>
-                  <a
-                    href="#"
-                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
-                  >
-                    Source Code
+                    View Website
                   </a>
                 </div>
               </div>
