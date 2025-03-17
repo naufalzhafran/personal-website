@@ -2,42 +2,28 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
+    <main className="bg-white dark:bg-black transition-colors duration-300">
       {/* Hero Section */}
       <section className="py-20 bg-white text-black dark:bg-black dark:text-white">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 mb-10 md:mb-0">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Fullstack Software Engineer
-              </h1>
-              <p className="text-xl mb-8">
-                Building robust and scalable web applications with modern
-                technologies
-              </p>
-              <div className="flex space-x-4">
-                <a
-                  href="#contact"
-                  className="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-black transition duration-300 dark:bg-white dark:text-black dark:hover:bg-white"
-                >
-                  Contact Me
-                </a>
-                <a
-                  href="#projects"
-                  className="border border-black px-6 py-3 rounded-lg font-medium hover:bg-black hover:text-white transition duration-300 dark:border-white dark:hover:bg-white dark:hover:text-black"
-                >
-                  View Projects
-                </a>
-              </div>
-            </div>
-            <div className="md:w-1/2 flex justify-center">
-              <div className="relative w-64 h-64 rounded-full overflow-hidden border-4 border-black shadow-xl dark:border-white">
-                {/* Replace with your actual profile image */}
-                <div className="w-full h-full bg-white flex items-center justify-center text-black text-2xl font-bold dark:bg-black dark:text-white">
-                  Your Photo
-                </div>
-              </div>
-            </div>
+        <div className="container min-h-[calc(100vh-18rem)] mx-auto px-6 flex flex-col items-start justify-center">
+          <p className="text-xl font-bold ml-0.5 md:text-2xl md:ml-1">
+            Hi, I'm Naufal Zhafran Latif
+          </p>
+          <h1 className="text-5xl md:text-9xl font-bold mb-4">
+            Fullstack Software Engineer
+          </h1>
+          <p className="text-lg mb-8 ml-0.5 md:ml-1">
+            A fast learner, always curious about something new, and passionate
+            about exploring innovative solutions to drive growth and
+            improvement.
+          </p>
+          <div className="flex space-x-4">
+            <a
+              href="#projects"
+              className="border border-black px-6 py-3 rounded-lg font-medium hover:bg-black hover:text-white transition duration-300 dark:border-white dark:hover:bg-white dark:hover:text-black"
+            >
+              View Projects
+            </a>
           </div>
         </div>
       </section>
@@ -46,7 +32,7 @@ export default function Home() {
       <section id="skills" className="py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-8 text-center text-black dark:text-white">
-            Technical Skills
+            Tech Stacks
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -73,7 +59,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-black rounded-full dark:bg-white"></div>
-                  <p>HTML5/CSS3</p>
+                  <p>Ant Design</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-black rounded-full dark:bg-white"></div>
@@ -105,11 +91,11 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-black rounded-full dark:bg-white"></div>
-                  <p>REST APIs</p>
+                  <p>Nest.js</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-black rounded-full dark:bg-white"></div>
-                  <p>SQL/NoSQL</p>
+                  <p>SQL</p>
                 </div>
               </div>
             </div>
@@ -118,71 +104,52 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 bg-white text-black dark:bg-black dark:text-white">
+      <section
+        id="experience"
+        className="py-20 bg-white text-black dark:bg-black dark:text-white"
+      >
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-8 text-center">
             Work Experience
           </h2>
-          
+
           <div className="space-y-8">
             {/* Experience Item 1 */}
             <div className="bg-white rounded-xl shadow-md p-8 text-black border border-black dark:bg-black dark:text-white dark:border-white">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold">
-                    Senior Software Engineer
-                  </h3>
-                  <p className="text-lg font-medium">Company Name</p>
+                  <h3 className="text-xl font-bold">Software Engineer</h3>
+                  <p className="text-lg font-medium">Shopee/Seamoney</p>
                 </div>
                 <div className="mt-2 md:mt-0">
                   <span className="bg-white text-black text-sm font-medium px-3 py-1 rounded-full border border-black dark:bg-black dark:text-white dark:border-white">
-                    Jan 2022 - Present
+                    Oct 2021 - Present
                   </span>
                 </div>
               </div>
               <ul className="list-disc list-inside space-y-2">
-                <li>Led the development of a microservices architecture that improved system reliability by 30%</li>
-                <li>Implemented CI/CD pipelines that reduced deployment time from hours to minutes</li>
-                <li>Mentored junior developers and conducted code reviews to ensure code quality</li>
-                <li>Collaborated with product managers to define technical requirements and plan sprints</li>
+                <li>
+                  Enhanced and optimized internal payment tools to streamline
+                  operations and improve team efficiency.
+                </li>
+                <li>
+                  Consistently delivered projects on time while exceeding
+                  expectations and requirements.
+                </li>
+                <li>
+                  Fostered strong collaboration with developers and stakeholders
+                  to achieve project goals.
+                </li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                  Next.js
+                  Typescript
                 </span>
-                <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                  TypeScript
-                </span>
-                <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                  Node.js
-                </span>
-              </div>
-            </div>
-            
-            {/* Experience Item 2 */}
-            <div className="bg-white rounded-xl shadow-md p-8 text-black border border-black dark:bg-black dark:text-white dark:border-white">
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-xl font-bold">
-                    Software Developer
-                  </h3>
-                  <p className="text-lg font-medium">Previous Company</p>
-                </div>
-                <div className="mt-2 md:mt-0">
-                  <span className="bg-white text-black text-sm font-medium px-3 py-1 rounded-full border border-black dark:bg-black dark:text-white dark:border-white">
-                    Mar 2020 - Dec 2021
-                  </span>
-                </div>
-              </div>
-              <ul className="list-disc list-inside space-y-2">
-                <li>Developed and maintained RESTful APIs for web and mobile applications</li>
-                <li>Collaborated with designers to implement responsive UI components</li>
-                <li>Optimized database queries resulting in 40% faster page load times</li>
-                <li>Participated in agile development cycles including daily stand-ups and sprint planning</li>
-              </ul>
-              <div className="mt-4 flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
                   React
+                </span>
+                <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
+                  React Native
                 </span>
                 <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
                   Python
@@ -193,36 +160,52 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Experience Item 3 */}
+            {/* Experience Item 2 */}
             <div className="bg-white rounded-xl shadow-md p-8 text-black border border-black dark:bg-black dark:text-white dark:border-white">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold">
-                    Junior Web Developer
-                  </h3>
-                  <p className="text-lg font-medium">First Company</p>
+                  <h3 className="text-xl font-bold">Fullstack Developer</h3>
+                  <p className="text-lg font-medium">
+                    Local Non-profit Organization
+                  </p>
                 </div>
                 <div className="mt-2 md:mt-0">
                   <span className="bg-white text-black text-sm font-medium px-3 py-1 rounded-full border border-black dark:bg-black dark:text-white dark:border-white">
-                    Jun 2018 - Feb 2020
+                    Jan 2024 - Present
                   </span>
                 </div>
               </div>
               <ul className="list-disc list-inside space-y-2">
-                <li>Built and maintained client websites using modern JavaScript frameworks</li>
-                <li>Implemented responsive designs ensuring cross-browser compatibility</li>
-                <li>Created database schemas and models for web applications</li>
-                <li>Worked directly with clients to gather requirements and implement feedback</li>
+                <li>
+                  Redesigned a legacy website to enhance user experience and
+                  stability, resulting in improved usability and engagement.
+                </li>
+                <li>
+                  Refactored legacy PHP code into clean, efficient, and
+                  maintainable TypeScript, enhancing readability and
+                  performance.
+                </li>
+                <li>
+                  Enhanced client-side user experience, achieving up to 80%
+                  faster website loading times.
+                </li>
+                <li>
+                  Streamline the end-to-end development and deployment workflow
+                  to facilitate seamless onboarding for new developers.
+                </li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                  JavaScript
+                  NextJS
                 </span>
                 <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                  HTML/CSS
+                  AdonisJS
                 </span>
                 <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
-                  SQL
+                  PostgreSQL
+                </span>
+                <span className="px-3 py-1 bg-white text-black rounded-full text-sm border border-black dark:bg-black dark:text-white dark:border-white">
+                  Coolify
                 </span>
               </div>
             </div>
@@ -244,7 +227,9 @@ export default function Home() {
                 <p className="text-black dark:text-white">Project Image</p>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">Project Name</h3>
+                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">
+                  Project Name
+                </h3>
                 <p className="text-black mb-4 dark:text-white">
                   A brief description of the project and its key features.
                   Explain the tech stack and your role.
@@ -261,10 +246,16 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="flex space-x-4">
-                  <a href="#" className="text-black hover:text-black dark:text-white dark:hover:text-white">
+                  <a
+                    href="#"
+                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
+                  >
                     View Demo
                   </a>
-                  <a href="#" className="text-black hover:text-black dark:text-white dark:hover:text-white">
+                  <a
+                    href="#"
+                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
+                  >
                     Source Code
                   </a>
                 </div>
@@ -277,7 +268,9 @@ export default function Home() {
                 <p className="text-black dark:text-white">Project Image</p>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">Project Name</h3>
+                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">
+                  Project Name
+                </h3>
                 <p className="text-black mb-4 dark:text-white">
                   A brief description of the project and its key features.
                   Explain the tech stack and your role.
@@ -294,10 +287,16 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="flex space-x-4">
-                  <a href="#" className="text-black hover:text-black dark:text-white dark:hover:text-white">
+                  <a
+                    href="#"
+                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
+                  >
                     View Demo
                   </a>
-                  <a href="#" className="text-black hover:text-black dark:text-white dark:hover:text-white">
+                  <a
+                    href="#"
+                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
+                  >
                     Source Code
                   </a>
                 </div>
@@ -310,7 +309,9 @@ export default function Home() {
                 <p className="text-black dark:text-white">Project Image</p>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">Project Name</h3>
+                <h3 className="text-xl font-bold mb-2 text-black dark:text-white">
+                  Project Name
+                </h3>
                 <p className="text-black mb-4 dark:text-white">
                   A brief description of the project and its key features.
                   Explain the tech stack and your role.
@@ -327,10 +328,16 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="flex space-x-4">
-                  <a href="#" className="text-black hover:text-black dark:text-white dark:hover:text-white">
+                  <a
+                    href="#"
+                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
+                  >
                     View Demo
                   </a>
-                  <a href="#" className="text-black hover:text-black dark:text-white dark:hover:text-white">
+                  <a
+                    href="#"
+                    className="text-black hover:text-black dark:text-white dark:hover:text-white"
+                  >
                     Source Code
                   </a>
                 </div>
@@ -339,7 +346,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
     </main>
   );
 }
