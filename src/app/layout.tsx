@@ -1,11 +1,32 @@
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { getPageMap } from "nextra/page-map";
 import "nextra-theme-docs/style.css";
-import "./globals.css"
+import "./globals.css";
 
 export const metadata = {
-  // Define your metadata here
-  // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+  title: "Naufal Zhafran | Personal Portfolio",
+  description: "Welcome to Naufal Zhafran's personal portfolio website showcasing projects, skills, and professional experience.",
+  keywords: ["Naufal Zhafran", "portfolio", "developer", "software engineer", "projects"],
+  authors: [{ name: "Naufal Zhafran" }],
+  creator: "Naufal Zhafran",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://naufalzhafran.com",
+    title: "Naufal Zhafran | Personal Portfolio",
+    description: "Welcome to Naufal Zhafran's personal portfolio website showcasing projects, skills, and professional experience.",
+    siteName: "Naufal Zhafran Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Naufal Zhafran | Personal Portfolio",
+    description: "Welcome to Naufal Zhafran's personal portfolio website showcasing projects, skills, and professional experience.",
+    creator: "@naufalzhafran",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const navbar = <Navbar logo={<b>NZ</b>} />;
@@ -30,6 +51,8 @@ export default async function RootLayout({
           navbar={navbar}
           pageMap={await getPageMap()}
           footer={footer}
+          editLink={null}
+          feedback={{ content: null }}
         >
           {children}
         </Layout>
