@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --x-color-nextra-bg: #ffffff;
+}
+
+.dark {
+  --x-color-nextra-bg: #111111;
+}
