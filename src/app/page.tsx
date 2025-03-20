@@ -11,8 +11,13 @@ export default function Home() {
             speed={0.5}
             squareSize={40}
             direction="diagonal"
-            borderColor="rgba(255, 255, 255, 0.2)"
-            hoverFillColor="rgba(34, 34, 34, 0.5)"
+            lightBorderColor="rgba(0, 0, 0, 0.08)"
+            darkBorderColor="rgba(255, 255, 255, 0.2)"
+            lightHoverFillColor="rgba(0, 0, 0, 0.03)"
+            darkHoverFillColor="rgba(255, 255, 255, 0.1)"
+            showRadialGradient={true}
+            showBottomGradient={true}
+            bottomGradientStart={0.4}
           />
         </div>
         <div className="container min-h-[calc(100vh-18rem)] mx-auto px-6 flex flex-col items-start justify-center relative z-10">

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
 
@@ -12,17 +12,27 @@ interface GridOffset {
 interface SquaresProps {
   direction?: "diagonal" | "up" | "right" | "down" | "left";
   speed?: number;
-  borderColor?: CanvasStrokeStyle;
   squareSize?: number;
-  hoverFillColor?: CanvasStrokeStyle;
+  lightBorderColor?: CanvasStrokeStyle;
+  darkBorderColor?: CanvasStrokeStyle;
+  lightHoverFillColor?: CanvasStrokeStyle;
+  darkHoverFillColor?: CanvasStrokeStyle;
+  showRadialGradient?: boolean;
+  showBottomGradient?: boolean;
+  bottomGradientStart?: number; // 0-1 value to determine where bottom gradient starts
 }
 
 const Squares: React.FC<SquaresProps> = ({
   direction = "right",
   speed = 1,
-  borderColor = "#999",
   squareSize = 40,
-  hoverFillColor = "#222",
+  lightBorderColor = "rgba(0, 0, 0, 0.1)",
+  darkBorderColor = "rgba(255, 255, 255, 0.2)",
+  lightHoverFillColor = "rgba(0, 0, 0, 0.05)",
+  darkHoverFillColor = "rgba(255, 255, 255, 0.1)",
+  showRadialGradient = true,
+  showBottomGradient = true,
+  bottomGradientStart = 0.5,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | null>(null);
@@ -30,8 +40,40 @@ const Squares: React.FC<SquaresProps> = ({
   const numSquaresY = useRef<number>(0);
   const gridOffset = useRef<GridOffset>({ x: 0, y: 0 });
   const hoveredSquareRef = useRef<GridOffset | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Detect dark mode
+  useEffect(() => {
+    setMounted(true);
+    
+    // Initial check for dark mode
+    const checkDarkMode = () => {
+      const isDark = 
+        document.documentElement.classList.contains('dark') || 
+        document.body.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+
+    checkDarkMode();
+
+    // Set up a mutation observer to detect theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    });
+    observer.observe(document.body, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -50,6 +92,10 @@ const Squares: React.FC<SquaresProps> = ({
       if (!ctx) return;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Use different colors based on the theme
+      const borderColor = isDarkMode ? darkBorderColor : lightBorderColor;
+      const hoverFillColor = isDarkMode ? darkHoverFillColor : lightHoverFillColor;
 
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
@@ -74,19 +120,42 @@ const Squares: React.FC<SquaresProps> = ({
         }
       }
 
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
-      );
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-      gradient.addColorStop(1, "#060606");
+      // Create a gradient that matches the theme
+      const gradientEndColor = isDarkMode ? "#060606" : "#fafafa";
+      
+      // Radial gradient from center to edges
+      if (showRadialGradient) {
+        const radialGradient = ctx.createRadialGradient(
+          canvas.width / 2,
+          canvas.height / 2,
+          0,
+          canvas.width / 2,
+          canvas.height / 2,
+          Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
+        );
+        radialGradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+        radialGradient.addColorStop(1, gradientEndColor);
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = radialGradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      
+      // Linear gradient from middle to bottom with more intensity
+      if (showBottomGradient) {
+        const gradientStartY = canvas.height * bottomGradientStart;
+        const bottomGradient = ctx.createLinearGradient(
+          0, 
+          gradientStartY,
+          0, 
+          canvas.height
+        );
+        bottomGradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+        bottomGradient.addColorStop(0.5, isDarkMode ? "rgba(6, 6, 6, 0.2)" : "rgba(250, 250, 250, 0.4)");
+        bottomGradient.addColorStop(1, gradientEndColor);
+        
+        ctx.fillStyle = bottomGradient;
+        ctx.fillRect(0, gradientStartY, canvas.width, canvas.height - gradientStartY);
+      }
     };
 
     const updateAnimation = () => {
@@ -160,12 +229,15 @@ const Squares: React.FC<SquaresProps> = ({
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [direction, speed, borderColor, hoverFillColor, squareSize]);
+  }, [direction, speed, squareSize, lightBorderColor, darkBorderColor, lightHoverFillColor, darkHoverFillColor, isDarkMode, mounted, showRadialGradient, showBottomGradient, bottomGradientStart]);
+
+  // Don't render until client-side to avoid hydration mismatch
+  if (!mounted) return null;
 
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full border-none block"
+      className="w-full h-full border-none block absolute inset-0"
     ></canvas>
   );
 };
