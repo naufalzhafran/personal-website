@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useRef, useEffect, useState } from "react";
 
@@ -46,12 +46,12 @@ const Squares: React.FC<SquaresProps> = ({
   // Detect dark mode
   useEffect(() => {
     setMounted(true);
-    
+
     // Initial check for dark mode
     const checkDarkMode = () => {
-      const isDark = 
-        document.documentElement.classList.contains('dark') || 
-        document.body.classList.contains('dark');
+      const isDark =
+        document.documentElement.classList.contains("dark") ||
+        document.body.classList.contains("dark");
       setIsDarkMode(isDark);
     };
 
@@ -59,13 +59,13 @@ const Squares: React.FC<SquaresProps> = ({
 
     // Set up a mutation observer to detect theme changes
     const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
     });
-    observer.observe(document.body, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
     });
 
     return () => observer.disconnect();
@@ -73,7 +73,7 @@ const Squares: React.FC<SquaresProps> = ({
 
   useEffect(() => {
     if (!mounted) return;
-    
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -95,7 +95,9 @@ const Squares: React.FC<SquaresProps> = ({
 
       // Use different colors based on the theme
       const borderColor = isDarkMode ? darkBorderColor : lightBorderColor;
-      const hoverFillColor = isDarkMode ? darkHoverFillColor : lightHoverFillColor;
+      const hoverFillColor = isDarkMode
+        ? darkHoverFillColor
+        : lightHoverFillColor;
 
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
@@ -121,8 +123,12 @@ const Squares: React.FC<SquaresProps> = ({
       }
 
       // Create a gradient that matches the theme
-      const gradientEndColor = isDarkMode ? "#060606" : "#fafafa";
-      
+      const gradientStartColor = isDarkMode
+        ? "rgba(0, 0, 0, 0)"
+        : "rgba(255, 255, 255, 0)";
+
+      const gradientEndColor = isDarkMode ? "black" : "white";
+
       // Radial gradient from center to edges
       if (showRadialGradient) {
         const radialGradient = ctx.createRadialGradient(
@@ -133,28 +139,36 @@ const Squares: React.FC<SquaresProps> = ({
           canvas.height / 2,
           Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
         );
-        radialGradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+        radialGradient.addColorStop(0, gradientStartColor);
         radialGradient.addColorStop(1, gradientEndColor);
 
         ctx.fillStyle = radialGradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
-      
+
       // Linear gradient from middle to bottom with more intensity
       if (showBottomGradient) {
         const gradientStartY = canvas.height * bottomGradientStart;
         const bottomGradient = ctx.createLinearGradient(
-          0, 
+          0,
           gradientStartY,
-          0, 
+          0,
           canvas.height
         );
-        bottomGradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-        bottomGradient.addColorStop(0.5, isDarkMode ? "rgba(6, 6, 6, 0.2)" : "rgba(250, 250, 250, 0.4)");
+        bottomGradient.addColorStop(0, gradientStartColor);
+        bottomGradient.addColorStop(
+          0.5,
+          isDarkMode ? "rgba(6, 6, 6, 0.2)" : "rgba(250, 250, 250, 0.4)"
+        );
         bottomGradient.addColorStop(1, gradientEndColor);
-        
+
         ctx.fillStyle = bottomGradient;
-        ctx.fillRect(0, gradientStartY, canvas.width, canvas.height - gradientStartY);
+        ctx.fillRect(
+          0,
+          gradientStartY,
+          canvas.width,
+          canvas.height - gradientStartY
+        );
       }
     };
 
@@ -229,7 +243,20 @@ const Squares: React.FC<SquaresProps> = ({
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [direction, speed, squareSize, lightBorderColor, darkBorderColor, lightHoverFillColor, darkHoverFillColor, isDarkMode, mounted, showRadialGradient, showBottomGradient, bottomGradientStart]);
+  }, [
+    direction,
+    speed,
+    squareSize,
+    lightBorderColor,
+    darkBorderColor,
+    lightHoverFillColor,
+    darkHoverFillColor,
+    isDarkMode,
+    mounted,
+    showRadialGradient,
+    showBottomGradient,
+    bottomGradientStart,
+  ]);
 
   // Don't render until client-side to avoid hydration mismatch
   if (!mounted) return null;
