@@ -1,0 +1,84 @@
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">2594. Minimum Time to Repair Cars</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Binary Search, Math
+  </div>
+  <a 
+    href="https://leetcode.com/problems/minimum-time-to-repair-cars" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+This problem requires us to find the minimum time needed for mechanics with different ranks to repair a certain number of cars. A key insight is understanding that the time required for a mechanic to repair cars follows a formula: a mechanic with rank `r` takes `r * n²` time to repair `n` cars.
+
+Conversely, in a given amount of time `t`, a mechanic with rank `r` can repair `⌊√(t/r)⌋` cars. Since we want to find the minimum time for all mechanics to collectively repair all cars, we can use binary search on the time to efficiently find this minimum value.
+
+## Approach
+1. Define a search space for the minimum time:
+   - Lower bound (`low`): 1 (minimum possible time)
+   - Upper bound (`high`): `max(ranks) * cars * cars` (worst-case scenario where the slowest mechanic repairs all cars)
+
+2. Create a helper function `canBeRepairedAll(time)` that determines if all cars can be repaired within a specific time:
+   - For each mechanic with rank `r`, calculate how many cars they can repair in time `t`: `⌊√(t/r)⌋`
+   - Sum up the number of cars all mechanics can repair
+   - Return `true` if this sum is greater than or equal to the total number of cars
+
+3. Perform binary search on the time:
+   - If `canBeRepairedAll(mid)` returns `true`, try a smaller time (`high = mid - 1`)
+   - Otherwise, increase the time (`low = mid + 1`)
+
+4. Return `low` as the minimum time required when the binary search completes
+
+## Code
+```typescript
+function repairCars(ranks: number[], cars: number): number {
+    // Initialize the binary search bounds
+    let low = 1;
+    // Calculate the upper bound for binary search
+    // The maximum time is the time required to repair the most time-consuming car 'cars' times
+    let high = Math.max(...ranks) * cars * cars;
+
+    // Helper function to check if all cars can be repaired within a given time
+    const canBeRepairedAll = (time: number): boolean => {
+        let maxCarsRepaired = ranks.reduce((total, rank) => total + Math.floor(Math.sqrt(time / rank)), 0);
+        return maxCarsRepaired >= cars;
+    };
+
+    // Binary search to find the minimum time required
+    while (low <= high) {
+        let mid = Math.floor(low + (high - low) / 2);
+        if (canBeRepairedAll(mid)) {
+            high = mid - 1; // Try to find a smaller valid time
+        } else {
+            low = mid + 1; // Increase the time if not all cars can be repaired
+        }
+    }
+
+    // The minimum time required to repair all cars
+    return low;
+};
+```
+
+## Time Complexity
+- **Time Complexity**: O(n log(m * k))
+  - n: number of mechanics (length of ranks array)
+  - m: maximum rank value
+  - k: number of cars
+  - Binary search takes O(log(m * k)) iterations
+  - In each iteration, we check all mechanics, which takes O(n)
+
+- **Space Complexity**: O(1)
+  - We only use a constant amount of extra space regardless of input size
+
+The binary search approach is efficient because it narrows down the search space logarithmically, allowing us to quickly find the minimum time required for all mechanics to repair all cars.
