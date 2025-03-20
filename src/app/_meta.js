@@ -7,7 +7,7 @@ export default {
   },
   tech: {
     type: "page",
-    title: "Blog",
+    title: "Tech Notes",
     theme: {
       timestamp: false,
     },

@@ -1,0 +1,99 @@
+# Understanding JavaScript Closures
+
+JavaScript is an unique language. A key part of JavaScript is something called a "closure". I will explains what closures are, how they work, and why they're important.
+
+## What's a Closure?
+
+Typically, a computer will remove all of a function's internal data once it has been executed. This is the standard flow of function execution in many programming languages, including JavaScript. This common behavior optimizes the use of the computer's memory.
+
+However, what if a developer needs to define a variable and retain it throughout the application's lifecycle? Developers often use global function declarations for this purpose. While this approach is possible, it requires additional effort to maintain the code. This is why JavaScript has introduced a powerful feature known as closures.
+
+Consider a function that retains memory of its past. Even after it has completed its execution, it continues to hold onto some information from its creation context. This is what a closure is! It is a function that "remembers" its environment.
+
+### Closure Example
+
+Let's see it in action:
+
+```javascript
+function outerFunction() {
+    let outerVariable = 'Hello from outside!';
+
+    function innerFunction() {
+        console.log(outerVariable);
+    }
+
+    return innerFunction;
+}
+
+const myClosure = outerFunction();
+myClosure(); // Output: Hello from outside!
+```
+
+`outerFunction` makes `outerVariable` and `innerFunction`. When we run `outerFunction`, it gives us `innerFunction`. Even though `outerFunction` is done, `innerFunction` (now `myClosure`) still knows about `outerVariable` – that's the closure!
+
+## How Closures Work
+
+In JavaScript, every time you create a function, you also create a closure. A closure allows the inner function to access variables from its surrounding scope, even after the outer function has finished executing. This means that the inner function retains a reference to the variables that were in scope at the time of its creation, enabling it to "remember" those variables and their values.
+
+For instance, if an outer function defines a variable and an inner function uses that variable, the inner function can still access it even after the outer function has completed. This feature is particularly useful for creating private variables and encapsulating functionality, allowing developers to maintain state without exposing it to the global scope.
+
+### The Scope Chain (Simplified)
+
+The scope chain can be visualized as a series of links, where each link represents a different scope. When a function needs to access a variable, it first checks its own local scope. If the variable is not found, it looks in the scope of the function that created it, continuing this process "up" the chain until it either finds the variable or reaches the global scope.
+
+This hierarchical structure is essential for variable resolution in JavaScript, enabling functions to access parent scope variables while keeping the global namespace clean. Understanding closures and the scope chain allows developers to write more modular and maintainable code.
+
+## Using Closures
+
+These are some example how closure being implemeted across some JavaScript applications.
+
+1. **Keeping Things Private:** Closures help keep data secret. Only the inner function can access it.
+
+   ```javascript
+   function makeCounter() {
+       let count = 0;
+   
+       return {
+           increase: function() { count++; return count; },
+           decrease: function() { count--; return count; },
+           get: function() { return count; }
+       };
+   }
+   
+   const myCounter = makeCounter();
+   console.log(myCounter.increase()); // 1
+   console.log(myCounter.increase()); // 2
+   ```
+
+2. **Making Functions:** Closures let you create custom functions easily.
+
+   ```javascript
+   function makeMultiplier(factor) {
+       return function(number) {
+           return number * factor;
+       };
+   }
+   
+   const doubler = makeMultiplier(2);
+   console.log(doubler(5)); // 10
+   ```
+
+3. **Handling Events:** Closures are great for remembering things in event handlers.
+
+   ```javascript
+   function setupButton(buttonId) {
+       const button = document.getElementById(buttonId);
+       let clicks = 0;
+   
+       button.addEventListener('click', function() {
+           clicks++;
+           console.log(`Clicked ${clicks} times!`);
+       });
+   }
+   
+   setupButton('myButton');
+   ```
+
+## In Short
+
+Closures are a fundamental part of JavaScript. They're powerful tools for making your code cleaner, more efficient, and easier to understand. Mastering closures will make you a better JavaScript programmer!
