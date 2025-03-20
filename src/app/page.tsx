@@ -1,12 +1,22 @@
+import Squares from "@/components/SquareBG";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="bg-white dark:bg-black transition-colors duration-300">
       {/* Hero Section */}
-      <section className="py-20 bg-white text-black dark:bg-black dark:text-white">
-        <div className="container min-h-[calc(100vh-18rem)] mx-auto px-6 flex flex-col items-start justify-center">
-          <p className="text-xl font-bold ml-0.5 md:text-2xl md:ml-1">
+      <section className="py-20 bg-white text-black dark:bg-black dark:text-white relative overflow-hidden">
+        <div className="absolute inset-0 z-1">
+          <Squares
+            speed={0.5}
+            squareSize={40}
+            direction="diagonal"
+            borderColor="rgba(255, 255, 255, 0.2)"
+            hoverFillColor="rgba(34, 34, 34, 0.5)"
+          />
+        </div>
+        <div className="container min-h-[calc(100vh-18rem)] mx-auto px-6 flex flex-col items-start justify-center relative z-10">
+          <p className="text-xl font-bold ml-0.5 md:text-2xl md:ml-1 text-black dark:text-white">
             Hi, I'm Naufal Zhafran Latif
           </p>
           <h1 className="text-5xl md:text-9xl font-bold mb-4">
