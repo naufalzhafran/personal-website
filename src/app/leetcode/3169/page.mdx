@@ -1,0 +1,89 @@
+# 3169. Count Days Without Meetings
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">3169. Count Days Without Meetings</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Array, Sorting 
+  </div>
+  <a 
+    href="https://leetcode.com/problems/count-days-without-meetings" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+The problem requires us to determine how many days within a given range do not have any scheduled meetings. To solve this, we need to consider the start and end days of each meeting and identify the gaps between them. The key insight is that by sorting the meetings by their start days, we can easily calculate the number of days without meetings by examining the intervals between the end of one meeting and the start of the next.
+
+The main challenge lies in efficiently counting these gaps while ensuring that we handle overlapping meetings correctly. By keeping track of the latest end day of the meetings processed so far, we can accurately compute the number of days that fall outside of any scheduled meetings.
+
+## Approach
+1. **Sort the Meetings**: 
+   - Sort the list of meetings based on their start days to process them in chronological order
+   - This ensures we handle meetings from earliest to latest
+
+2. **Initialize Tracking Variables**:
+   - `maxEndDay`: Tracks the latest end day encountered so far
+   - `daysWithoutMeetings`: Accumulates the total days without any meetings
+
+3. **Process Meetings Sequentially**:
+   - For each meeting, calculate the gap between the previous meeting's end and current meeting's start
+   - Add this gap (if positive) to our count of days without meetings
+   - Update `maxEndDay` if the current meeting ends later than any previous meeting
+
+4. **Account for Remaining Days**:
+   - After processing all meetings, add any days between the latest meeting end and the total day count
+   - This captures days without meetings after the final meeting
+
+5. **Return Result**:
+   - The final value of `daysWithoutMeetings` represents our answer
+
+## Code
+```typescript
+function countDays(days: number, meetings: number[][]): number {
+    // Sort meetings based on their start day to process them chronologically
+    meetings.sort((meeting1, meeting2) => meeting1[0] - meeting2[0]);
+
+    // Initialize variables to track the latest end day of meetings and the count of days without meetings
+    let maxEndDay = 0; // Tracks the latest end day of the most recent meeting
+    let daysWithoutMeetings = 0; // Accumulates the total number of days without meetings
+
+    // Iterate through each meeting
+    for (let i = 0; i < meetings.length; ++i) {
+        // Calculate the gap between the end of the last meeting and the start of the current meeting
+        // Subtract 1 to avoid counting overlapping days
+        daysWithoutMeetings += Math.max(0, meetings[i][0] - maxEndDay - 1);
+
+        // Update maxEndDay to the latest end day of the meetings processed so far
+        maxEndDay = Math.max(maxEndDay, meetings[i][1]);
+    }
+
+    // Add the remaining days after the last meeting ends
+    daysWithoutMeetings += Math.max(0, days - maxEndDay);
+
+    // Return the total number of days without meetings
+    return daysWithoutMeetings;
+}
+```
+
+## Time Complexity
+
+- **Time Complexity**: O(n log n)
+  - n: number of meetings
+  - Sorting the meetings takes O(n log n) time, which is the dominant factor
+  - Iterating through the sorted meetings takes O(n) time
+
+- **Space Complexity**: O(1)
+  - We only use a constant amount of extra space regardless of input size
+  
+The sorting-based approach efficiently identifies all days without meetings by processing the meetings in chronological order and calculating the gaps between them.
