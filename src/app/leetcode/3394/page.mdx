@@ -1,0 +1,102 @@
+# 3394. Check if Grid can be Cut into Sections
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">3394. Check if Grid can be Cut into Sections</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Array, Sorting 
+  </div>
+  <a 
+    href="https://leetcode.com/problems/check-if-grid-can-be-cut-into-sections" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+The problem requires us to determine if a grid can be divided into sections based on given rectangles. Each rectangle is defined by its coordinates, and we need to check if there are gaps between these rectangles that would allow for a valid cut. The key insight is to identify these gaps along both the x-axis and y-axis. If there are at least two gaps in either dimension, it indicates that the grid can be cut into sections.
+
+By sorting the rectangles based on their starting coordinates for each dimension, we can easily identify gaps between consecutive rectangles. This approach allows us to efficiently check if the grid can be divided into sections based on the given rectangles.
+
+## Approach
+
+1. **Process Each Dimension Separately**:
+   - Check for gaps along the x-axis (dimension 0)
+   - Check for gaps along the y-axis (dimension 1)
+
+2. **For Each Dimension**:
+   - Sort rectangles based on their starting coordinate in that dimension
+   - Initialize a variable to track the furthest end point encountered
+   - Count gaps where the end of one rectangle doesn't overlap with the start of the next
+
+3. **Gap Identification**:
+   - A gap exists when the furthest end point is less than or equal to the start of the next rectangle
+   - Update the furthest end point after processing each rectangle
+
+4. **Determine Result**:
+   - Return true if there are at least two gaps in either dimension
+   - Otherwise, return false
+
+## Code
+
+```typescript
+/**
+ * Function to check if there are gaps between rectangles along a specified dimension.
+ * @param rectangles - An array of rectangles, where each rectangle is represented as [x1, y1, x2, y2].
+ * @param dim - The dimension to check for gaps (0 for x-axis, 1 for y-axis).
+ * @returns True if there are at least two gaps, indicating the grid can be cut into sections.
+ */
+function checkGaps(rectangles: number[][], dim: number): boolean {
+    // Initialize the gap count to zero
+    let gapCount = 0;
+
+    // Sort rectangles based on the starting point of the specified dimension
+    rectangles.sort((a, b) => a[dim] - b[dim]);
+
+    // Initialize furthestEnd to the end of the first rectangle in the specified dimension
+    let furthestEnd = rectangles[0][dim + 2];
+
+    // Iterate through the sorted rectangles starting from the second one
+    for (let i = 1; i < rectangles.length; i++) {
+        const rect = rectangles[i];
+
+        // Check if there is a gap between furthestEnd and the start of the current rectangle
+        if (furthestEnd <= rect[dim]) {
+            gapCount++;
+        }
+
+        // Update furthestEnd to the maximum of its current value and the end of the current rectangle
+        furthestEnd = Math.max(furthestEnd, rect[dim + 2]);
+    }
+
+    // Return true if there are at least two gaps
+    return gapCount >= 2;
+}
+
+function checkValidCuts(n: number, rectangles: number[][]): boolean {
+    // Return true if there is at least one valid cut in either dimension
+    return checkGaps(rectangles, 0) || checkGaps(rectangles, 1);
+}
+```
+
+## Time Complexity
+
+- **Time Complexity**: O(n log n)
+  - n: number of rectangles
+  - Sorting the rectangles takes O(n log n) time, which is the dominant factor
+  - Iterating through the sorted rectangles takes O(n) time
+
+- **Space Complexity**: O(1)
+  - We only use a constant amount of extra space regardless of input size
+  - The sorting operation may require additional space depending on the implementation
+
+This algorithm efficiently identifies if a grid can be cut into sections by processing rectangles in sorted order and checking for gaps between them.
