@@ -1,0 +1,101 @@
+# 2780. Minimum Index of a Valid Split
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">2780. Minimum Index of a Valid Split</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Array, Hash Table 
+  </div>
+  <a 
+    href="https://leetcode.com/problems/minimum-index-of-a-valid-split" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+The problem requires us to find the minimum index at which we can split an integer array such that both resulting subarrays have the same dominant element. An element is considered dominant if it appears more than half the time in the array. This means that for a valid split, both subarrays must contain the same dominant element.
+
+## Approach
+
+To solve this problem, we can use the Boyer-Moore Voting Algorithm to identify the dominant element in the array. Once we have the dominant element, we can count its occurrences and check for valid splits. A valid split occurs when both subarrays contain the dominant element more than half the time.
+
+1. **Identify the Dominant Element**: 
+   - Use the Boyer-Moore Voting Algorithm to find the element that appears most frequently
+   - Keep track of a potential majority element and its count
+
+2. **Count Occurrences**: 
+   - Count how many times this dominant element appears in the entire array
+   - This is needed to verify it's truly the majority element
+
+3. **Check for Valid Splits**: 
+   - Iterate through the array and check if the dominant element appears more than half the time in both subarrays
+   - For each potential split point, verify the majority condition in both resulting subarrays
+   - Return the first valid split index
+
+4. **Return Result**:
+   - If no valid split is found, return -1
+
+## Code
+```typescript
+function minimumIndex(nums: number[]): number {
+    let majorityNum = nums[0]; // Initialize the majority number
+    let currentCount = 0; // Counter for the majority number
+    let majorityCount = 0; // Total count of the majority number
+    let n = nums.length; // Length of the array
+
+    // Boyer-Moore Voting Algorithm to find the majority element
+    for (let num of nums) {
+        if (num === majorityNum) {
+            currentCount++; // Increment count if the number matches
+        } else {
+            currentCount--; // Decrement count if it doesn't match
+        }
+
+        // If count reaches zero, update the majority number
+        if (currentCount === 0) {
+            currentCount = 1; // Reset count
+            majorityNum = num; // Update majority number
+        }
+    }
+
+    // Count the occurrences of the majority element
+    for (let num of nums) {
+        if (num === majorityNum) majorityCount++; // Increment if it matches
+    }
+
+    currentCount = 0; // Reset current count for split checking
+    // Check for valid splits
+    for (let i = 0; i < n - 1; i++) {
+        if (nums[i] === majorityNum) currentCount++; // Count in the first subarray
+        let remainingCount = majorityCount - currentCount; // Count in the second subarray
+        // Check if both subarrays have the majority element more than half the time
+        if ((currentCount * 2 > i + 1) && (remainingCount * 2 > n - i - 1)) return i; // Valid split found
+    }
+
+    return -1; // No valid split found
+}
+```
+
+## Time Complexity
+
+- **Time Complexity**: O(n)
+  - n: length of the array
+  - Finding the majority element takes O(n) time with the Boyer-Moore algorithm
+  - Counting occurrences and checking for valid splits each take O(n) time
+
+- **Space Complexity**: O(1)
+  - The algorithm uses a constant amount of extra space regardless of the input size
+  
+This approach efficiently finds the minimum index of a valid split while ensuring that both resulting subarrays contain the same dominant element.
+
+
