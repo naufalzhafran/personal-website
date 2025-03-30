@@ -1,0 +1,77 @@
+# 763. Partition Labels
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">763. Partition Labels</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Hash Map, Two Pointers, Greedy, String
+  </div>
+  <a 
+    href="https://leetcode.com/problems/partition-labels" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+The problem requires partitioning a string into as many parts as possible so that each character appears in at most one part. The key insight is that we need to track the last occurrence of each character to determine the boundaries of our partitions. When we reach the last occurrence of all characters in our current partition, we can create a new partition.
+
+## Approach
+1. Create an array to store the last occurrence index of each character in the string
+2. Use two pointers to track partition boundaries:
+   - `left`: marks the start of current partition
+   - `right`: marks the farthest position we need to include in current partition
+3. Iterate through the string:
+   - Update `right` to be the maximum of current `right` and last occurrence of current character
+   - When we reach `right`, we've found a complete partition
+   - Add partition size to result and start a new partition
+
+## Code
+```typescript
+function partitionLabels(s: string): number[] {
+    const result: number[] = []; // Array to store the sizes of the partitions
+    const lastOccurrence: number[] = new Array(26).fill(0); // Array to track last occurrences of characters
+
+    // Store the last occurrence index of each character
+    for (let i = 0; i < s.length; i++) {
+        lastOccurrence[s.charCodeAt(i) - 97] = i; // Convert character to index (a=0, b=1, ..., z=25)
+    }
+
+    let left = 0; // Left boundary of the current partition
+    let right = 0; // Right boundary of the current partition
+
+    // Iterate through the string to determine partition boundaries
+    for (let i = 0; i < s.length; i++) {
+        right = Math.max(right, lastOccurrence[s.charCodeAt(i) - 97]); // Update right boundary
+
+        // If i reaches the end of the current partition
+        if (i === right) {
+            result.push(right - left + 1); // Add partition size to result
+            left = right + 1; // Update left for the next partition
+        }
+    }
+
+    return result; // Return the array of partition sizes
+}
+```
+
+## Time Complexity
+- **Time Complexity**: O(n)
+  - n: length of the string
+  - We make two passes through the string:
+    1. First pass to record last occurrences
+    2. Second pass to determine partitions
+
+- **Space Complexity**: O(1)
+  - We use a fixed-size array of size 26 for storing last occurrences
+  - The result array's size depends on the number of partitions but doesn't affect space complexity classification
+
+The solution efficiently partitions the string by tracking character occurrences and using two pointers to determine partition boundaries.
