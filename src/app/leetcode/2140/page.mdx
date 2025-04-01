@@ -1,0 +1,79 @@
+# 2140. Solving Questions With Brainpower
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">2140. Solving Questions With Brainpower</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Array, Dynamic Programming
+  </div>
+  <a 
+    href="https://leetcode.com/problems/solving-questions-with-brainpower" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+The problem involves solving questions in an exam where each question has a certain number of points and a brainpower cost. If you solve a question, you earn points but cannot solve the next brainpower number of questions. The goal is to maximize the total points earned.
+
+The key challenge is to decide whether to solve each question or skip it, based on the points and brainpower constraints. This decision-making process can be efficiently handled using dynamic programming.
+
+## Approach
+1. **Dynamic Programming**
+   - Use dynamic programming to keep track of the maximum points that can be earned starting from each question
+   - Break down the problem into simpler subproblems and store results to avoid redundant calculations
+
+2. **Reverse Iteration**
+   - Iterate through the questions in reverse order
+   - Build the solution from the last question to the first
+   - Makes it easier to decide whether to solve or skip each question based on subsequent results
+
+3. **Decision Making**
+   For each question, we have two choices:
+   - Solve the question: Earn the points but skip the next brainpower questions
+   - Skip the question: Move to the next question without earning points
+   - Calculate maximum points for each choice and store in dp array
+
+## Code
+```typescript
+function mostPoints(questions: number[][]): number {
+    // Initialize a dp array to store the maximum points starting from each question
+    const dp = new Array<number>(questions.length).fill(0);
+
+    // Iterate through the questions in reverse order
+    for (let i = questions.length - 1; i >= 0; i--) {
+        const [points, brainpower] = questions[i];
+
+        // Points if we skip the current question
+        const skipPoints = dp[i + 1] ?? 0;
+
+        // Points if we solve the current question
+        const solvePoints = points + (dp[i + brainpower + 1] ?? 0);
+
+        // Store the maximum points we can earn starting from the current question
+        dp[i] = Math.max(skipPoints, solvePoints);
+    }
+
+    // The result is the maximum points starting from the first question
+    return dp[0];
+}
+```
+
+## Time & Space Complexity
+- **Time Complexity**: O(n)
+  - Where n is the number of questions
+  - We iterate through the questions array once
+
+- **Space Complexity**: O(n)
+  - Due to the dp array that stores maximum points for each question
+  - The array size is equal to the number of questions
+
+This approach efficiently solves the problem using dynamic programming, ensuring that we make optimal decisions at each step to maximize the total points earned.
