@@ -1,0 +1,100 @@
+# 2962. Count Subarrays Where Max Element Appears at Least K Times
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">2962. Count Subarrays Where Max Element Appears at Least K Times</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Arrays, Sliding Window, Counting
+  </div>
+  <a 
+    href="https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/description/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+This problem asks us to count subarrays where the maximum element of the array appears at least k times. My initial intuition was to use a sliding window approach.
+
+The key insight is that we only need to track occurrences of the maximum element in the array, as this is what determines whether a subarray meets our criteria. By using a sliding window technique, we can efficiently count valid subarrays without examining every possible subarray individually.
+
+## Approach
+
+1. Find the maximum element in the array (`max_element`):
+   - First, we scan the array to identify the largest value
+
+2. Set up a sliding window using two pointers:
+   - `start`: the left boundary of our window
+   - `end`: the right boundary of our window, which we'll iterate through the array
+   - `max_elements_in_window`: counter tracking occurrences of `max_element` in current window
+
+3. Process each element in the array sequentially:
+   - When we encounter the maximum element, increment `max_elements_in_window`
+   - When `max_elements_in_window` reaches exactly `k`, shrink the window from the left until we have `k-1` occurrences
+   - For each window position, add `start` to our answer (representing valid subarrays)
+
+4. The counting technique is the key insight:
+   - When we've found exactly `k` occurrences and shrink the window, the value of `start` represents how many valid subarrays end at the current position
+   - This allows us to count all valid subarrays without explicitly generating each one
+
+5. Return the final count as our answer
+
+## Solution Code
+
+```python
+class Solution:
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        # Find the maximum element in the array
+        max_element = max(nums)
+        
+        # Initialize variables:
+        # ans - final count of valid subarrays
+        # start - left boundary of our sliding window
+        # max_elements_in_window - count of maximum elements in current window
+        ans = start = max_elements_in_window = 0
+
+        # Iterate through the array with 'end' as the right boundary of our window
+        for end in range(len(nums)):
+            # If current element is the maximum element, increment our counter
+            if nums[end] == max_element:
+                max_elements_in_window += 1
+            
+            # If we have exactly k occurrences of max element, shrink window from left
+            # until we have k-1 occurrences
+            while max_elements_in_window == k:
+                # If element at 'start' is the maximum element, decrement our counter
+                if nums[start] == max_element:
+                    max_elements_in_window -= 1
+                # Move the left boundary of our window
+                start += 1
+            
+            # For the current end position, all subarrays starting from 0 to 'start-1'
+            # and ending at 'end' will have less than k occurrences of max_element,
+            # which means all subarrays starting from 'start' or later to 'end'
+            # will have at least k occurrences
+            ans += start
+        
+        return ans
+```
+
+## Time & Space Complexity
+
+- **Time Complexity**: O(n)
+  - We first find the maximum element which takes O(n) time
+  - Then we use a sliding window which processes each element at most twice (once when it enters the window, once when it exits)
+  - Overall, the solution has linear time complexity
+
+- **Space Complexity**: O(1)
+  - We only use a few variables regardless of input size
+  - No additional data structures are needed that scale with input size
+
+The sliding window approach is particularly efficient for this problem because it allows us to avoid generating all possible subarrays explicitly, which would lead to an O(n²) solution. Instead, we process each element at most twice, resulting in an O(n) solution.
