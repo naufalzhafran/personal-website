@@ -1,0 +1,77 @@
+# 13. Roman to Integer
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">13. Roman to Integer</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Easy</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Hash Map, Math, String
+  </div>
+  <a 
+    href="https://leetcode.com/problems/roman-to-integer" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+The problem requires converting a Roman numeral string to its integer equivalent. Roman numerals use seven symbols (I, V, X, L, C, D, M) with specific values, and follow a key rule: when a smaller symbol appears before a larger one, it represents subtraction (like IV = 4), otherwise it represents addition (like VI = 6). The key insight is to iterate through the string and compare each symbol with the next one to determine whether to add or subtract its value.
+
+## Approach
+1. Create a hash map to store the integer value of each Roman symbol
+2. Iterate through the string using an index pointer
+3. For each character, compare its value with the next character (if it exists):
+   - If `current_value < next_value`: this is a subtractive case (like IV, IX, XL, etc.)
+     - Add `(next_value - current_value)` to the total
+     - Skip both characters by incrementing index by 2
+   - Otherwise: add `current_value` to the total and move to next character
+4. Return the accumulated total
+
+## Code
+```python
+def romanToInt(s: str) -> int:
+    # Map Roman symbols to their integer values
+    symbol_mapping = {
+        'I': 1, 'V': 5, 'X': 10, 'L': 50,
+        'C': 100, 'D': 500, 'M': 1000
+    }
+
+    total_sum = 0
+    i = 0  # Current index in the Roman numeral string
+
+    # Loop through the string
+    while i < len(s):
+        current_value = symbol_mapping[s[i]]
+
+        # Check if there's a next character and if it's a subtractive case
+        # E.g., 'IV' where I (1) < V (5)
+        if i + 1 < len(s) and current_value < symbol_mapping[s[i + 1]]:
+            # Calculate value for subtractive pair (e.g., 5 - 1 = 4 for 'IV')
+            total_sum += (symbol_mapping[s[i + 1]] - current_value)
+            i += 2  # Skip both characters
+        else:
+            # Add the current symbol's value (normal case or last character)
+            total_sum += current_value
+            i += 1  # Move to the next character
+
+    return total_sum
+```
+
+## Time Complexity
+- **Time Complexity**: O(n)
+  - n: length of the string
+  - We make one pass through the string, examining each character at most once
+
+- **Space Complexity**: O(1)
+  - We use a hash map with a fixed size of 7 entries for the Roman symbols
+  - The space complexity is constant regardless of input size
+
+The solution efficiently converts Roman numerals by using a hash map for symbol lookup and handling the subtractive cases through forward-looking comparison.
+
