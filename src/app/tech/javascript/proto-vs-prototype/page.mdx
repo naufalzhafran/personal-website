@@ -1,0 +1,113 @@
+# `__proto__` vs Prototype in JavaScript
+
+JavaScript is a very flexible language that provides many powerful features for object-oriented programming. One of the most important and often confusing concepts is the relationship between `__proto__` and `prototype`. Understanding these concepts is crucial for mastering JavaScript's object-oriented nature.
+
+## What is Prototype?
+
+The `prototype` is a property of a constructor function that represents the blueprint for creating new objects. When you create a function in JavaScript, it automatically gets a `prototype` property. This property is used when the function is used as a constructor with the `new` keyword.
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+// Adding a method to the prototype
+Person.prototype.sayHello = function() {
+    console.log(`Hello, my name is ${this.name}`);
+};
+
+const person = new Person('John');
+person.sayHello(); // Output: Hello, my name is John
+```
+
+## What is `__proto__`?
+
+`__proto__` is a property that exists on every object in JavaScript. It points to the object's prototype, which is the object from which it inherits properties and methods. It's the actual link between an object and its prototype.
+
+```javascript
+const person = {
+    name: 'John'
+};
+
+console.log(person.__proto__ === Object.prototype); // true
+```
+
+## The Relationship Between prototype and `__proto__`
+
+The relationship between these two properties can be confusing. Here's how they work together:
+
+1. When you create a function, it gets a `prototype` property
+2. When you create an object using that function as a constructor, the object's `__proto__` points to the function's `prototype`
+
+```javascript
+function Animal(name) {
+    this.name = name;
+}
+
+Animal.prototype.makeSound = function() {
+    console.log('Some sound');
+};
+
+const dog = new Animal('Rex');
+console.log(dog.__proto__ === Animal.prototype); // true
+```
+
+## Practical Example
+
+Let's see a more practical example that demonstrates inheritance:
+
+```javascript
+// Base class
+function Vehicle(type) {
+    this.type = type;
+}
+
+Vehicle.prototype.start = function() {
+    console.log(`${this.type} is starting...`);
+};
+
+// Derived class
+function Car(brand) {
+    Vehicle.call(this, 'Car');
+    this.brand = brand;
+}
+
+// Set up inheritance
+Car.prototype = Object.create(Vehicle.prototype);
+Car.prototype.constructor = Car;
+
+// Add Car-specific method
+Car.prototype.honk = function() {
+    console.log(`${this.brand} car is honking!`);
+};
+
+const myCar = new Car('Toyota');
+myCar.start(); // Output: Car is starting...
+myCar.honk(); // Output: Toyota car is honking!
+```
+
+## Best Practices
+
+1. **Avoid modifying `__proto__` directly**: It's better to work with the `prototype` property of constructors.
+
+2. **Use `Object.getPrototypeOf()`**: Instead of accessing `__proto__` directly, use `Object.getPrototypeOf()` to get an object's prototype.
+
+```javascript
+const obj = {};
+console.log(Object.getPrototypeOf(obj) === Object.prototype); // true
+```
+
+## Common Pitfalls
+
+1. **Confusing `prototype` and `__proto__`**: Remember that `prototype` is a property of functions, while `__proto__` is a property of objects.
+
+2. **Modifying built-in prototypes**: Avoid modifying the prototypes of built-in objects like `Object` or `Array` as it can lead to unexpected behavior.
+
+## Conclusion
+
+Understanding the difference between `__proto__` and `prototype` is essential for mastering JavaScript's object-oriented features. While they are related, they serve different purposes:
+
+- `prototype` is a property of functions that serves as a blueprint for creating new objects
+- `__proto__` is a property of objects that points to their prototype
+
+By understanding these concepts, you can better leverage JavaScript's powerful inheritance system and create more maintainable and efficient code.
