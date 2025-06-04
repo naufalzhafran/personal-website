@@ -1,0 +1,94 @@
+# 15. 3Sum
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">3Sum</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Array, Two Pointers, Sorting
+  </div>
+  <a 
+    href="https://leetcode.com/problems/3sum/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+The 3Sum problem asks us to find all unique triplets in an array that sum up to zero. The brute-force approach would be to check every possible triplet, but this is inefficient for large arrays. The key insight is that by sorting the array, we can use a two-pointer technique to efficiently find pairs that, together with a fixed element, sum to zero. Sorting also helps us easily skip duplicates, ensuring unique triplets in the result.
+
+## Approach
+
+1. **Sort the array** to make it easier to find triplets and skip duplicates.
+2. **Loop through each number** in the array, treating it as the first number of a potential triplet.
+3. For each number, use **two pointers** (one starting just after the current number, one at the end) to find two other numbers that, together with the current number, sum to zero.
+4. **Skip duplicates** to ensure all triplets are unique.
+5. Add each valid triplet to the result list.
+
+## Solution Code
+
+```python
+from typing import List
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()  # Sort the numbers
+        result = []  # Store the triplets
+
+        # Loop through each number to fix the first element
+        for i in range(len(nums)):
+            # Skip duplicate first elements
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+
+            # Set up two pointers for the rest of the array
+            left, right = i + 1, len(nums) - 1
+
+            # Find the other two elements using two pointers
+            while left < right:
+                current_sum = nums[i] + nums[left] + nums[right]
+
+                if current_sum < 0:
+                    left += 1  # Need a larger sum, move left pointer right
+                elif current_sum > 0:
+                    right -= 1 # Need a smaller sum, move right pointer left
+                else:
+                    # Found a triplet that sums to zero
+                    result.append([nums[i], nums[left], nums[right]])
+
+                    left += 1  # Move left pointer right to find next unique triplet
+                    # Skip duplicate second elements
+                    while left < right and nums[left] == nums[left - 1]:
+                        left += 1
+
+        return result
+```
+
+**Explanation:**
+- We sort the array to make it easier to skip duplicates and use two pointers.
+- For each number, we use two pointers to find pairs that sum to the negative of the fixed number.
+- We skip duplicates for both the fixed number and the left pointer to ensure unique triplets.
+- The result is a list of all unique triplets that sum to zero.
+
+## Time & Space Complexity
+
+- **Time Complexity**: O(n^2)
+  - Sorting the array takes O(n log n).
+  - The main loop runs O(n) times, and for each iteration, the two-pointer scan takes O(n) in the worst case.
+  - Therefore, the overall time complexity is O(n^2).
+
+- **Space Complexity**: O(1) (excluding the output)
+  - We use only a constant amount of extra space for variables and pointers.
+  - The output list does not count towards space complexity as per LeetCode conventions.
+
+**Why?**
+- Sorting is O(n log n), but dominated by the O(n^2) two-pointer search.
+- No extra data structures are used except for the output list.
