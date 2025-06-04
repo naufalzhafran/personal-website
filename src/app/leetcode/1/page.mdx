@@ -1,0 +1,78 @@
+# 1. Two Sum
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">Two Sum</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Easy</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Array, Hash Table
+  </div>
+  <a 
+    href="https://leetcode.com/problems/two-sum/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+The Two Sum problem requires us to find two numbers in an array that add up to a target value. The key insight is that for each number we encounter, we need to find its complement (target - current number) in the array. A hash map is the perfect data structure for this because:
+1. We can store numbers we've seen and their indices
+2. We can look up complements in O(1) time
+3. We only need to traverse the array once
+
+## Approach
+
+The solution uses a hash map to efficiently find pairs of numbers that sum to the target:
+
+1. Create a hash map to store numbers we've seen and their indices
+2. For each number in the array:
+   - Calculate the complement (target - current number)
+   - If the complement exists in our hash map, we found our pair
+   - If not, store the current number and its index in the hash map
+3. Return the indices when a valid pair is found
+
+This approach ensures we only need to traverse the array once, making it very efficient.
+
+## Solution Code
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # Stores numbers we've seen and their index: {number: index}
+        seen_numbers = {} 
+
+        # Loop through each number and its index
+        for index, num in enumerate(nums):
+            # Calculate the value needed to reach the target
+            complement = target - num
+
+            # If we've seen the 'complement' before, we found our pair!
+            if complement in seen_numbers:
+                return [index, seen_numbers[complement]]
+            
+            # Add the current number and its index to our 'seen' list
+            seen_numbers[num] = index
+        
+        # Should not be reached for typical LeetCode Two Sum problems
+        return []
+```
+
+## Time & Space Complexity
+
+- **Time Complexity**: O(n)
+  - We only need to traverse the array once
+  - Hash map operations (insertion and lookup) are O(1) on average
+  - Therefore, the overall time complexity is O(n)
+
+- **Space Complexity**: O(n)
+  - In the worst case, we might need to store n-1 numbers in the hash map
+  - This happens when the target sum is found using the last element
+  - Therefore, the space complexity is O(n)
