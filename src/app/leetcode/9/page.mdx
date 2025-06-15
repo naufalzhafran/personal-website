@@ -1,0 +1,80 @@
+# 9. Palindrome Number
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">9. Palindrome Number</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Easy</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Math
+  </div>
+  <a 
+    href="https://leetcode.com/problems/palindrome-number/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+A palindrome number reads the same forward and backward. For example, 121 is a palindrome because it reads as 121 from left to right and 121 from right to left. However, -121 is not a palindrome because it reads as -121 from left to right but 121- from right to left.
+
+The key insight is that we don't need to reverse the entire number. We can stop when we've processed half of the digits. This optimization reduces both time complexity and avoids potential integer overflow issues.
+
+## Approach
+
+The solution uses an efficient approach that only reverses half of the number:
+
+1. If the number is negative, it's not a palindrome. If the number ends with 0 (except 0 itself), it's not a palindrome.
+
+2. Instead of reversing the entire number, we only reverse half of it:
+   - Extract digits from the right side of the original number
+   - Build the reversed number from these digits
+   - Stop when the original number becomes less than or equal to the reversed number
+
+3. For even-length numbers, compare `x == reversed`. For odd-length numbers, compare `x == reversed // 10` (to remove the middle digit from the reversed half).
+
+This approach ensures we only process half the digits, making it more efficient and avoiding potential overflow issues.
+
+## Solution Code
+
+```python
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        # Negative numbers are not palindromes
+        # Numbers ending with 0 (except 0 itself) are not palindromes
+        if x < 0 or (x % 10 == 0 and x != 0):
+            return False
+        
+        reversed_half = 0
+        
+        # Reverse only half of the number
+        while x > reversed_half:
+            # Extract the last digit and add it to reversed_half
+            reversed_half = reversed_half * 10 + x % 10
+            # Remove the last digit from x
+            x //= 10
+        
+        # For even-length numbers: x == reversed_half
+        # For odd-length numbers: x == reversed_half // 10
+        # (the middle digit doesn't need to be checked)
+        return x == reversed_half or x == reversed_half // 10
+```
+
+## Time & Space Complexity
+
+- **Time Complexity**: O(log(n))
+  - We only process half of the digits in the number
+  - The number of digits in an integer n is log(n), so we process log(n)/2 digits
+  - Therefore, the time complexity is O(log(n))
+
+- **Space Complexity**: O(1)
+  - We only use a constant amount of extra space for variables
+  - No additional data structures are needed
+  - Therefore, the space complexity is O(1)
