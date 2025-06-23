@@ -1,0 +1,72 @@
+# 2. Add Two Numbers
+
+<div className="p-4 my-6 border rounded-lg shadow-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+  <div className="flex justify-between items-center mb-2">
+    <h1 className="text-2xl font-bold">2. Add Two Numbers</h1>
+    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Medium</span>
+  </div>
+  <div className="mb-4 text-gray-600 dark:text-gray-300">
+    Linked List, Math
+  </div>
+  <a 
+    href="https://leetcode.com/problems/add-two-numbers/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700"
+  >
+    View on LeetCode
+    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+    </svg>
+  </a>
+</div>
+
+## Intuition
+
+This is a simple addition problem, but it's implemented on linked lists. We need to add the numbers from the two lists together and return the result as a linked list. We will follow the same approach as we would do addition on paper. We will iterate through the two lists, adding the numbers together and carrying over the carry to the next digit.
+
+## Approach
+
+The solution is straightforward. We will iterate through the two lists and handle all the edge cases.
+
+1. Initialize the result list and a pointer to its head.
+2. While loop until both lists are exhausted and there is no carry left:
+    - Add the values of the two pointed nodes and the carry
+    - Update the carry from the sum
+    - Create a new node with the sum value and append it to the result list
+    - Move all of the pointers to the next node
+3. Return the result list
+
+## Solution Code
+
+```python
+def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+    carry = 0
+    result = ListNode()  # This will be a dummy head
+    head = result
+
+    while l1 is not None or l2 is not None or carry:
+        sum_val = 0
+        if l1 is not None:
+            sum_val += l1.val
+            l1 = l1.next
+        if l2 is not None:
+            sum_val += l2.val
+            l2 = l2.next
+        
+        sum_val += carry
+        carry = sum_val // 10  # Integer division for the carry
+        head.next = ListNode(sum_val % 10)
+        head = head.next
+
+    return result.next  # Return the actual head of the result list (skip the dummy head)
+```
+
+## Time & Space Complexity
+
+
+- **Time Complexity**: O(n)
+  - We iterate through the two lists once, so the time complexity is O(n)
+
+- **Space Complexity**: O(n)
+  - We create a new node for each digit in the result list, so the space complexity is O(n)
