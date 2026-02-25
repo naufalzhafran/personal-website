@@ -1,0 +1,5 @@
+# Agent-related files
+.agents/
+.agent/
+.claude/
+skills-lock.json
