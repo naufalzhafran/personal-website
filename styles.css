@@ -1105,16 +1105,19 @@ footer {
 
 .gallery-slides {
     display: flex;
+    width: 100%;
     height: 100%;
     transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
 }
 
 .gallery-slide {
-    min-width: 100%;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
     height: 100%;
     position: relative;
-    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .gallery-slide img {
@@ -1124,6 +1127,12 @@ footer {
     display: block;
     position: relative;
     z-index: 1;
+}
+
+.salman-gallery .gallery-slide img {
+    object-fit: contain;
+    object-position: center top;
+    background: #fff;
 }
 
 .gallery-slide img.hidden,
