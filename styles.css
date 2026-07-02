@@ -157,8 +157,12 @@ nav.scrolled {
     position: relative;
 }
 
+.hero > .container {
+    width: 100%;
+}
+
 .hero-content {
-    max-width: 700px;
+    max-width: 620px;
     padding-right: 40px;
 }
 
@@ -194,7 +198,7 @@ nav.scrolled {
 
 .hero h1 {
     font-family: var(--font-heading);
-    font-size: clamp(48px, 10vw, 80px);
+    font-size: clamp(48px, 7vw, 76px);
     font-weight: 700;
     line-height: 1.1;
     color: var(--primary);
@@ -205,6 +209,7 @@ nav.scrolled {
 }
 
 .hero h1 .highlight {
+    display: block;
     color: var(--cta);
 }
 
@@ -275,7 +280,7 @@ nav.scrolled {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 45%;
+    width: min(42vw, 760px);
     height: 80%;
     opacity: 0;
     animation: fadeIn 0.8s ease 0.5s forwards;
@@ -303,6 +308,7 @@ nav.scrolled {
     position: absolute;
     right: 60px;
     top: 50%;
+    width: min(100%, 620px);
     transform: translateY(-50%) rotate(3deg);
 }
 
